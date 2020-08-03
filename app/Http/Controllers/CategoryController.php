@@ -2,18 +2,49 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+
+
+    /**
+     * The category Service implementation.
+     *
+     * @var categoryService
+     */
+    protected $categoryService;
+
+    /**
+     * Instantiate a new CategoryController instance.
+     *
+     * @param $categoryService CategoryService
+     *
+     * @return void
+     */
+    public function __construct(
+        CategoryService $categoryService
+    ) {
+        $this->categoryService = $categoryService;
+    }
+
+
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         //
+        try {
+            $categories = $this->categoryService->list($request);
+            return view('admin.categories.list')->with('categories', $categories);
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**

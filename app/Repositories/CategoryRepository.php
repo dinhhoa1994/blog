@@ -2,7 +2,6 @@
 
 namespace App\Repositories;
 
-// use App\Category;
 use App\Category;
 use App\Repositories\BaseRepository;
 
@@ -41,7 +40,7 @@ class CategoryRepository extends BaseRepository
      */
     public function search($keySearch)
     {
-        $select = ['id', 'name', 'description'];
+        $select = ['id', 'name', 'tag', 'description', 'icon', 'slug'];
         return $this->model->select($select)
             ->where('name', 'like', '%' . $keySearch . '%')
             ->orwhere('description', 'like', '%' . $keySearch . '%')
@@ -56,8 +55,8 @@ class CategoryRepository extends BaseRepository
      * @return void
      */
     public function store($request)
-    {
-        $this->model->create(['name' => $request->name, 'description' => $request->description]);
+    {   
+        $this->model->create(['name' => $request->name, 'tag' => $request->tag, 'description' => $request->description]);
     }
 
     /**

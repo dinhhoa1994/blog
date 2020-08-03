@@ -16,3 +16,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'category'], function () {
+        Route::get('/', 'CategoryController@index')->name('admin.category.index');
+        Route::delete('/delete/{id}', 'CategoryController@destroy')->name('admin.category.delete');
+        Route::get('/edit/{id}', 'CategoryController@edit')->name('admin.category.edit');
+        Route::put('/update', 'CategoryController@update')->name('admin.category.update');
+        Route::get('/create', 'CategoryController@create')->name('admin.category.create');
+        Route::put('/store', 'CategoryController@store')->name('admin.category.store');
+    });
+});
