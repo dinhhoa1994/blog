@@ -41,24 +41,27 @@
                         <th class="text-center">description</th>
                         <th class="text-center">Icon</th>
                         <th class="text-center">Slug</th>
+                        <th class="text-center">Show</th>
                         <th class="text-center">Delete</th>
                         <th class="text-center">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($categories as $categorie)
+                    @foreach ($categories as $category)
                     <tr class="odd  gradeX" align="center">
-                        <td>{{ $categorie->id }}</td>
-                        <td>{{ $categorie->name }}</td>
-                        <td>{{ $categorie->tag }}</td>
-                        <td>{{ str_limit($categorie->description,$limit = 30) }}</td>
-                        <td><img width="100px" height="100px" src="{{URL::to( $categorie->icon)}}" alt=""></td>
-                        <td>{{ $categorie->slug }}</td>
+                        <td>{{ $category->id }}</td>
+                        <td>{{ $category->name }}</td>
+                        <td>{{ $category->tag }}</td>
+                        <td>{{ str_limit($category->description,$limit = 30) }}</td>
+                        <td><img width="100px" height="100px" src="{{URL::to( $category->icon)}}" alt=""></td>
+                        <td>{{ $category->slug }}</td>
+                        <td> <a class="btn btn-info" href=" {{URL::to('admin/category/show/'.$category->id)}}"> Show
+                            </a></td>
                         <td class="center"><i class="fa fa-trash-o  fa-fw"></i>
-                            <a onclick="return confirm('Are you sure?')"
-                                href="admin/category/delete/{{$categorie->id}}"> Delete</a></td>
+                            <a onclick="return confirm('Are you sure?')" href="admin/category/delete/{{$category->id}}">
+                                Delete</a></td>
                         <td class="center"><i class="fa fa-pencil fa-fw"></i> <a
-                                href="admin/category/edit/{{$categorie->id}}">Edit</a></td>
+                                href="admin/category/edit/{{$category->id}}">Edit</a></td>
                     </tr>
                     @endforeach
 

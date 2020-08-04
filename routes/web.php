@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::group(['prefix' => 'category'], function () {
         Route::get('/', 'CategoryController@index')->name('admin.category.index');
         Route::get('/delete/{id}', 'CategoryController@destroy')->name('admin.category.delete');
+        Route::get('/show/{id}', 'CategoryController@show')->name('admin.category.show');
         Route::get('/edit/{id}', 'CategoryController@edit')->name('admin.category.edit');
         Route::put('/update/{id}', 'CategoryController@update')->name('admin.category.update');
         Route::get('/create', 'CategoryController@create')->name('admin.category.create');

@@ -93,7 +93,21 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        // return view('admin.categories.list');
         //
+        try {
+            $category = $this->categoryService->findById($id);
+
+
+            // if ($category->active == 0) {
+            //     return back();
+            // }
+            // echo "$category->active";
+
+            return view('admin.categories.show', ['category' => $category]);
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**
