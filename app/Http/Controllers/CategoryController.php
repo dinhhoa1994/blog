@@ -38,10 +38,10 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
-        //
+
         try {
             $categories = $this->categoryService->list($request);
-            return view('admin.categories.list')->with('categories', $categories);
+            return view('admin.categories.list', ['categories' => $categories]);
         } catch (\Exception $e) {
             return back();
         }
@@ -55,6 +55,7 @@ class CategoryController extends Controller
     public function create()
     {
         //
+        return view('admin.categories.create');
     }
 
     /**

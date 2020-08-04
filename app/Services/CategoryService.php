@@ -50,7 +50,7 @@ class CategoryService
         if ($request->has('keySearch')) {
             return $this->categoryRepository->search($request['keySearch']);
         }
-        return $this->categoryRepository->list(['id', 'name', 'description']);
+        return $this->categoryRepository->list(['id', 'name', 'tag', 'description', 'icon', 'slug']);
     }
 
     /**
@@ -74,7 +74,7 @@ class CategoryService
      */
     public function findById(int $id)
     {
-        return $this->categoryRepository->findById(['id', 'name', 'description'], $id);
+        return $this->categoryRepository->findById(['id', 'name', 'tag', 'description', 'icon', 'slug'], $id);
     }
 
     /**
@@ -86,7 +86,7 @@ class CategoryService
      */
     public function update($request)
     {
-        $this->categoryRepository->update($request->only(['name', 'description']), $request->id);
+        $this->categoryRepository->update($request->only(['name', 'tag', 'description', 'icon', 'slug']), $request->id);
     }
 
     /**

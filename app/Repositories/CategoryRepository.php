@@ -55,7 +55,7 @@ class CategoryRepository extends BaseRepository
      * @return void
      */
     public function store($request)
-    {   
+    {
         $this->model->create(['name' => $request->name, 'tag' => $request->tag, 'description' => $request->description]);
     }
 
@@ -72,20 +72,7 @@ class CategoryRepository extends BaseRepository
         $this->model->find($id)->update($columns);
     }
 
-    /**
-     * Get list image by id category.
-     *
-     * @param $id int
-     *
-     * @return productImages
-     */
-    public function imageByCategory($id)
-    {
-        return $this->model->select('product_images.image')
-            ->join('products', 'categories.id', '=', 'products.category_id')
-            ->join('product_images', 'product_id', '=', 'products.id')
-            ->where('categories.id', $id)->get();
-    }
+
 
     /**
      * Delete a Model by id
@@ -97,8 +84,6 @@ class CategoryRepository extends BaseRepository
     public function delete(int $id)
     {
         $category = $this->model->find($id);
-        if ($category->products->isEmpty()) {
-            $category->delete();
-        }
+        $category->delete();
     }
 }
