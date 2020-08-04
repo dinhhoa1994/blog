@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
+use App\Http\Requests\CategoryRequest;
+use Session;
+
 
 class CategoryController extends Controller
 {
@@ -55,18 +58,29 @@ class CategoryController extends Controller
     public function create()
     {
         //
-        return view('admin.categories.create');
+        try {
+            return view('admin.categories.create');
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param $categoryRequest CategoryRequest
+     *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $categoryRequest)
     {
         //
+        // try {
+        $this->categoryService->store($categoryRequest);
+        return redirect(route('admin.category.index'));
+        // } catch (\Exception $e) {
+        //     return back();
+        // }
     }
 
     /**

@@ -25,4 +25,8 @@ return [
     'success_create_category' => 'Create Category successfully ',
     'success_delete_category' => 'Delete Category successfully ',
     'name_validation' => 'Name category not be blank',
+    'tag_validation' => 'Tag category not be blank',
+    'description_validation' => 'Description category not be blank',
+    'icon_validation' => 'Icon category not be blank',
+    'slug_validation' => 'Slug category not be blank',
 ];

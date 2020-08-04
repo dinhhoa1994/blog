@@ -25,6 +25,10 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'tag' => 'required',
+            'description' => 'required',
+            'icon' => 'required',
+            'slug' => 'required',
         ];
     }
 
@@ -37,6 +41,10 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name.required'  => config('category.name_validation'),
+            'name.tag'  => config('category.tag_validation'),
+            'name.description'  => config('category.description_validation'),
+            'name.icon'  => config('category.icon_validation'),
+            'name.slug'  => config('category.slug_validation'),
         ];
     }
 }

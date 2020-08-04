@@ -25,6 +25,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/edit/{id}', 'CategoryController@edit')->name('admin.category.edit');
         Route::put('/update', 'CategoryController@update')->name('admin.category.update');
         Route::get('/create', 'CategoryController@create')->name('admin.category.create');
-        Route::put('/store', 'CategoryController@store')->name('admin.category.store');
+        Route::post('/store', 'CategoryController@store')->name('admin.category.store');
     });
 });

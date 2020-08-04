@@ -15,17 +15,18 @@
 
             </div>
 
-            @if (session('thongbao'))
-            <div class="alert alert-danger">
-                {{ session('thongbao') }}
-            </div>
-            @endif
 
             <!-- /.col-lg-12 -->
             <a href="{{ route('admin.category.create')}}" style="margin-bottom: 2%" class="btn btn-primary ">Add
                 New Category
             </a>
 
+
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                     <tr align="center">
@@ -45,8 +46,8 @@
                         <td>{{ $categorie->id }}</td>
                         <td>{{ $categorie->name }}</td>
                         <td>{{ $categorie->tag }}</td>
-                        <td>{{ $categorie->description }}</td>
-                        <td><img width="100px" height="100px" src="{{URL::to($categorie->icon)}}" alt=""></td>
+                        <td>{{ str_limit($categorie->description,$limit = 30) }}</td>
+                        <td><img width="100px" height="100px" src="{{URL::to( $categorie->icon)}}" alt=""></td>
                         <td>{{ $categorie->slug }}</td>
                         <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a
                                 href="admin/categorie/delete/{{$categorie->id}}"> Delete</a></td>

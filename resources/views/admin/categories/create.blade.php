@@ -34,7 +34,13 @@
             </div>
             @endif
 
-            <form action="admin/category/store" method="POST">
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{session('error')}}
+            </div>
+            @endif
+
+            <form action="admin/category/store" method="POST" enctype="multipart/form-data">
                 {{-- 'name', 'tag', 'description', 'icon', 'slug' --}}
 
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -63,7 +69,7 @@
                 <div class="col-xs-12 col-sm-12  col-md-12">
                     <div class="form-group">
                         <strong>Category Description : </strong>
-                        <input id="description_tag" type="text" name="description" class="form-control"
+                        <input id="category_description" type="text" name="description" class="form-control"
                             placeholder="Category Description">
                     </div>
                     @error('description')
