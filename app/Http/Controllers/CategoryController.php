@@ -93,18 +93,13 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        // return view('admin.categories.list');
-        //
         try {
             $category = $this->categoryService->findById($id);
-
-
-            // if ($category->active == 0) {
-            //     return back();
-            // }
-            // echo "$category->active";
-
-            return view('admin.categories.show', ['category' => $category]);
+            if ($category['active'] === 0) {
+                return back();
+            } else {
+                return view('admin.categories.show', ['category' => $category]);
+            }
         } catch (\Exception $e) {
             return back();
         }
@@ -118,15 +113,15 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        //
-        // try {
-        $category = $this->categoryService->findById($id);
-        // if ($category->active == 1) {
-        return view('admin.categories.edit', ['category' => $category]);
-        // } else return view('admin.categories.list')->with('error', 'Category deleted ');
-        // } catch (\Exception $e) {
-        //     return back();
-        // }
+
+        try {
+            $category = $this->categoryService->findById($id);
+            if ($category['active'] == 1) {
+                return view('admin.categories.edit', ['category' => $category]);
+            } else return redirect(route('admin.category.index'))->with('error', 'Category deleted ');
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**

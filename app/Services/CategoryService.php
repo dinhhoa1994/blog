@@ -74,7 +74,7 @@ class CategoryService
      */
     public function findById(int $id)
     {
-        return $this->categoryRepository->findById(['id', 'name', 'tag', 'description', 'icon', 'slug'], $id);
+        return $this->categoryRepository->findById(['id', 'name', 'tag', 'description', 'icon', 'slug', 'active'], $id);
     }
 
     /**
