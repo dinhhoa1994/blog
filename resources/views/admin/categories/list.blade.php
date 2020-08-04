@@ -27,6 +27,11 @@
                 {{ session('success') }}
             </div>
             @endif
+            @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+            @endif
             <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                 <thead>
                     <tr align="center">
@@ -49,7 +54,8 @@
                         <td>{{ str_limit($categorie->description,$limit = 30) }}</td>
                         <td><img width="100px" height="100px" src="{{URL::to( $categorie->icon)}}" alt=""></td>
                         <td>{{ $categorie->slug }}</td>
-                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a
+                        <td class="center"><i class="fa fa-trash-o  fa-fw"></i>
+                            <a onclick="return confirm('Are you sure?')"
                                 href="admin/category/delete/{{$categorie->id}}"> Delete</a></td>
                         <td class="center"><i class="fa fa-pencil fa-fw"></i> <a
                                 href="admin/category/edit/{{$categorie->id}}">Edit</a></td>

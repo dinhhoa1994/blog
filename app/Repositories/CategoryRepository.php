@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Category;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 
 class CategoryRepository extends BaseRepository
@@ -103,16 +104,20 @@ class CategoryRepository extends BaseRepository
     public function update($request, $id)
     {
 
-
+        $category = DB::table('categories')->where('id', $id);
         $data = array();
         $data['name'] = $request->name;
         $data['tag'] = $request->tag;
         $data['description'] = $request->description;
         $data['slug'] = $request->slug;
 
-        $img_file = $request->file('icon');
-        if ($img_file) {
+        // $old_file_name = $category->icon;
 
+        // Log::info($old_file_name);
+
+
+        if ($request->hasFile('icon')) {
+            $img_file = $request->file('icon');
             $img_file_extension = $img_file->getClientOriginalExtension();
 
             if ($img_file_extension != 'png' && $img_file_extension != 'jpg' && $img_file_extension != 'jpeg') {
@@ -129,12 +134,15 @@ class CategoryRepository extends BaseRepository
 
             $successUpload = $img_file->move($upload_patch, $random_file_name);
             $data['icon'] = $random_file_name;
-        } else
-            $data['icon'] = $request->icon;
+        }
+        //  else {
+        //     $data['icon'] = $old_file_name;
+        // }
+
 
         $data['active'] = 1;
 
-        $category = DB::table('categories')->where('id', $id)->update($data);
+        $category->update($data);
 
         $request->session()->flash('success', 'Category Updated Successfully!');
         return redirect()->route('admin.category.index');
@@ -152,6 +160,7 @@ class CategoryRepository extends BaseRepository
     public function delete(int $id)
     {
         $category = $this->model->find($id);
-        $category->delete();
+        $category->active = 0;
+        $category->save();
     }
 }

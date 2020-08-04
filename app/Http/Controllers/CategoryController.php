@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoryRequest;
+use App\Http\Requests\CategoryEditRequest;
+
 use Session;
 
 
@@ -116,14 +118,15 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  App\Http\Requests\CategoryEditRequest  $categoryRequest
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryRequest $categoryRequest, $id)
+    public function update(CategoryEditRequest $categoryRequest, $id)
     {
         //
         try {
+
             $this->categoryService->update($categoryRequest, $id);
             // Session::flash('successCategory', config('category.success_update_category').$categoryRequest->name);
             return redirect(route('admin.category.index'));
@@ -141,5 +144,14 @@ class CategoryController extends Controller
     public function destroy($id)
     {
         //
+
+        try {
+
+            $this->categoryService->delete($id);
+            // Session::flash('successCategory', config('category.success_delete_category'));
+            return redirect(route('admin.category.index'))->with('success', 'Category Deleted Successfully!');
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 }
