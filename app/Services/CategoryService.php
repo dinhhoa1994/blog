@@ -84,9 +84,10 @@ class CategoryService
      *
      * @return void
      */
-    public function update($request)
+    public function update($request, $id)
     {
-        $this->categoryRepository->update($request->only(['name', 'tag', 'description', 'icon', 'slug']), $request->id);
+        // $this->categoryRepository->update($request->only(['name', 'tag', 'description', 'icon', 'slug']), $request->id);
+        $this->categoryRepository->update($request, $request->id);
     }
 
     /**

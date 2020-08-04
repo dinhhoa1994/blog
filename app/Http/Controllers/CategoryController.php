@@ -75,12 +75,12 @@ class CategoryController extends Controller
     public function store(CategoryRequest $categoryRequest)
     {
         //
-        // try {
-        $this->categoryService->store($categoryRequest);
-        return redirect(route('admin.category.index'));
-        // } catch (\Exception $e) {
-        //     return back();
-        // }
+        try {
+            $this->categoryService->store($categoryRequest);
+            return redirect(route('admin.category.index'));
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**
@@ -103,6 +103,14 @@ class CategoryController extends Controller
     public function edit($id)
     {
         //
+        // try {
+        $category = $this->categoryService->findById($id);
+        // if ($category->active == 1) {
+        return view('admin.categories.edit', ['category' => $category]);
+        // } else return view('admin.categories.list')->with('error', 'Category deleted ');
+        // } catch (\Exception $e) {
+        //     return back();
+        // }
     }
 
     /**
@@ -112,9 +120,16 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CategoryRequest $categoryRequest, $id)
     {
         //
+        try {
+            $this->categoryService->update($categoryRequest, $id);
+            // Session::flash('successCategory', config('category.success_update_category').$categoryRequest->name);
+            return redirect(route('admin.category.index'));
+        } catch (\Exception $e) {
+            return back();
+        }
     }
 
     /**

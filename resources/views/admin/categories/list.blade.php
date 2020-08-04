@@ -50,15 +50,17 @@
                         <td><img width="100px" height="100px" src="{{URL::to( $categorie->icon)}}" alt=""></td>
                         <td>{{ $categorie->slug }}</td>
                         <td class="center"><i class="fa fa-trash-o  fa-fw"></i><a
-                                href="admin/categorie/delete/{{$categorie->id}}"> Delete</a></td>
+                                href="admin/category/delete/{{$categorie->id}}"> Delete</a></td>
                         <td class="center"><i class="fa fa-pencil fa-fw"></i> <a
-                                href="admin/categorie/edit/{{$categorie->id}}">Edit</a></td>
+                                href="admin/category/edit/{{$categorie->id}}">Edit</a></td>
                     </tr>
                     @endforeach
 
 
                 </tbody>
             </table>
+            {!! $categories->links() !!}
+
         </div>
         <!-- /.row -->
     </div>
