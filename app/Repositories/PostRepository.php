@@ -3,31 +3,32 @@
 namespace App\Repositories;
 
 use App\Category;
+use App\Post;
 use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
-class CategoryRepository extends BaseRepository
+class PostRepository extends BaseRepository
 {
     /**
-     * Instantiate a new CategoryRepository instance.
+     * Instantiate a new PostRepository instance.
      *
-     * @param $category Category
+     * @param $post Post
      *
      * @return void
      */
-    public function __construct(Category $category)
+    public function __construct(Post $post)
     {
-        $this->model = $category;
+        $this->model = $post;
     }
 
     /**
-     * Get's list category
+     * Get's list post
      *
      * @param $select array
      *
-     * @return categories
+     * @return posts
      */
     public function list($select)
     {
@@ -35,43 +36,47 @@ class CategoryRepository extends BaseRepository
     }
 
     /**
-     * Search key search in list category.
+     * Search key search in list post.
      *
      * @param $keySearch string
      *
-     * @return categories
+     * @return posts
      */
     public function search($keySearch)
     {
-        $select = ['id', 'name', 'tag', 'description', 'icon', 'slug'];
+        $select = ['id', 'title', 'intro', 'content', 'image', 'tag', 'description', 'count_comment', 'slug', 'category_id', 'active'];
         return $this->model->select($select)
             ->where('name', 'like', '%' . $keySearch . '%')
             ->orwhere('description', 'like', '%' . $keySearch . '%')
-            ->paginate(Config('category.paginate'));
+            ->paginate(Config('post.paginate'));
     }
 
     /**
-     * Create a category.
+     * Create a post.
      *
-     * @param $request CategoryRequest
+     * @param $request PostRequest
      *
      * @return void
      */
     public function store($request)
     {
         $data = array();
-        $data['name'] = $request->name;
+        $data['title'] = $request->title;
+        $data['intro'] = $request->intro;
+        $data['content'] = $request->content;
+        $data['count_comment'] = $request->count_comment;
+        $data['category_id'] = $request->category_id;
         $data['tag'] = $request->tag;
         $data['description'] = $request->description;
         $data['slug'] = $request->slug;
 
-        $img_file = $request->file('icon');
+        $img_file = $request->file('image');
         if ($img_file) {
 
             $img_file_extension = $img_file->getClientOriginalExtension();
 
             if ($img_file_extension != 'png' && $img_file_extension != 'jpg' && $img_file_extension != 'jpeg') {
-                return redirect('admin/category/create')->with('error', 'Only support file : png, jpg, jpeg!');
+                return redirect('admin/post/create')->with('error', 'Only support file : png, jpg, jpeg!');
             }
 
             $img_file_name = $img_file->getClientOriginalName();
@@ -83,18 +88,18 @@ class CategoryRepository extends BaseRepository
             }
 
             $successUpload = $img_file->move($upload_patch, $random_file_name);
-            $data['icon'] = $random_file_name;
+            $data['image'] = $random_file_name;
         } else
-            $data['icon'] = '';
+            $data['image'] = '';
 
         $data['active'] = 1;
-        $categories = DB::table('categories')->insert($data);
-        $request->session()->flash('success', 'Category Created Successfully!');
-        return redirect()->route('admin.category.index');
+        $posts = DB::table('posts')->insert($data);
+        $request->session()->flash('success', 'Post Created Successfully!');
+        return redirect()->route('admin.post.index');
     }
 
     /**
-     * Update a category.
+     * Update a post.
      *
      * @param $columns array
      * @param $id      int
@@ -104,22 +109,26 @@ class CategoryRepository extends BaseRepository
     public function update($request, $id)
     {
 
-        $category = DB::table('categories')->where('id', $id);
+        $post = DB::table('posts')->where('id', $id);
         $data = array();
-        $data['name'] = $request->name;
+        $data['title'] = $request->title;
+        $data['intro'] = $request->intro;
+        $data['content'] = $request->content;
+        $data['count_comment'] = $request->count_comment;
+        $data['category_id'] = $request->category_id;
         $data['tag'] = $request->tag;
         $data['description'] = $request->description;
         $data['slug'] = $request->slug;
 
-        // $old_file_name = $category->icon;
 
+        // $old_file_name = $request['image'];
 
-        if ($request->hasFile('icon')) {
-            $img_file = $request->file('icon');
+        if ($request->hasFile('image')) {
+            $img_file = $request->file('image');
             $img_file_extension = $img_file->getClientOriginalExtension();
 
             if ($img_file_extension != 'png' && $img_file_extension != 'jpg' && $img_file_extension != 'jpeg') {
-                return redirect('admin/category/create')->with('error', 'Only support file : png, jpg, jpeg!');
+                return redirect('admin/post/create')->with('error', 'Only support file : png, jpg, jpeg!');
             }
 
             $img_file_name = $img_file->getClientOriginalName();
@@ -131,19 +140,19 @@ class CategoryRepository extends BaseRepository
             }
 
             $successUpload = $img_file->move($upload_patch, $random_file_name);
-            $data['icon'] = $random_file_name;
+            $data['image'] = $random_file_name;
         }
-        // else {
-        //     $data['icon'] = $old_file_name;
+        //  else {
+        //     $data['image'] = $old_file_name;
         // }
 
 
         $data['active'] = 1;
 
-        $category->update($data);
+        $post->update($data);
 
-        $request->session()->flash('success', 'Category Updated Successfully!');
-        return redirect()->route('admin.category.index');
+        $request->session()->flash('success', 'Post Updated Successfully!');
+        return redirect()->route('admin.post.index');
     }
 
 
@@ -157,8 +166,8 @@ class CategoryRepository extends BaseRepository
      */
     public function delete(int $id)
     {
-        $category = $this->model->find($id);
-        $category->active = 0;
-        $category->save();
+        $post = $this->model->find($id);
+        $post->active = 0;
+        $post->save();
     }
 }

@@ -28,4 +28,14 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get('/create', 'CategoryController@create')->name('admin.category.create');
         Route::post('/store', 'CategoryController@store')->name('admin.category.store');
     });
+
+    Route::group(['prefix' => 'post'], function () {
+        Route::get('/', 'PostController@index')->name('admin.post.index');
+        Route::get('/delete/{id}', 'PostController@destroy')->name('admin.post.delete');
+        Route::get('/show/{id}', 'PostController@show')->name('admin.post.show');
+        Route::get('/edit/{id}', 'PostController@edit')->name('admin.post.edit');
+        Route::put('/update/{id}', 'PostController@update')->name('admin.post.update');
+        Route::get('/create', 'PostController@create')->name('admin.post.create');
+        Route::post('/store', 'PostController@store')->name('admin.post.store');
+    });
 });
