@@ -6,10 +6,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Category
-                    <small>{{$category->name}}</small>
+                <h1 class="page-header">Post
+                    <small>{{$post->name}}</small>
                     <div>
-                        <a href=" {{route('admin.category.index')}} " class="btn btn-success mb3">Back</a>
+                        <a href=" {{route('admin.post.index')}} " class="btn btn-success mb3">Back</a>
                     </div>
                 </h1>
 
@@ -21,58 +21,73 @@
 
 
 
-                <form action="{{  url('admin/category/update/'.$category->id) }}" method="POST"
+                <form action="{{  url('admin/post/update/'.$post->id) }}" method="POST"
                     enctype="multipart/form-data">
                     {!! method_field('put') !!}
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="id" value="{!! $category->id !!}" />
+                    {{-- <input type="hidden" name="_token" value="{{ csrf_token() }}"> --}}
+                    <input type="hidden" name="id" value="{!! $post->id !!}" />
+
+                   
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Title : </strong>
+                            <p>{{$post->title}}</p>
+                        </div>
+                    </div>
+
+                     <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Intro : </strong>
+                            <p>{{$post->intro}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Content : </strong>
+                            <p>{{$post->content}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Image : </strong>
+                            <p>
+                                <img width="400px" height="400x" src="{{$post->image}}" alt="">
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Tag : </strong>
+                            <p>{{$post->tag}}</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Description : </strong>
+                            <p>{{$post->description}}</p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong> Slug : </strong>
+                            <p>{{$post->slug}}</p>
+                        </div>
+                    </div>
 
                     <div class="col-xs-12 col-sm-12  col-md-12">
                         <div class="form-group">
                             <strong>Category Name : </strong>
-                            <p>{{$category->name}}</p>
+                            <p>{{$post->category->name}}</p>
                         </div>
-
                     </div>
 
-                    <div class="col-xs-12 col-sm-12  col-md-12">
-                        <div class="form-group">
-                            <strong>Category Tag : </strong>
-                            <p>{{$category->tag}}</p>
-                        </div>
-
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12  col-md-12">
-                        <div class="form-group">
-                            <strong>Category Description : </strong>
-                            <p>{{$category->description}}</p>
-                        </div>
-
-                    </div>
-
-
-
-                    <div class="col-xs-12 col-sm-12  col-md-12">
-                        <div class="form-group">
-                            <strong>Category Icon : </strong>
-                            <p>
-                                <img width="400px" height="400x" src="{{$category->icon}}" alt="">
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                    <div class="col-xs-12 col-sm-12  col-md-12">
-                        <div class="form-group">
-                            <strong>Category Slug : </strong>
-                            <p>{{$category->slug}}</p>
-                        </div>
-                        @error('slug')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                    
                     <form>
             </div>
         </div>

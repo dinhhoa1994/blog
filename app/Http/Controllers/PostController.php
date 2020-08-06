@@ -9,6 +9,7 @@ use App\Http\Requests\PostRequest;
 use App\Http\Requests\PostEditRequest;
 use Illuminate\Support\Facades\App;
 use Session;
+use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller
@@ -54,7 +55,9 @@ class PostController extends Controller
     {
 
         try {
+            // $posts = DB::select('select * from posts where active = ?', [1]);
             $posts = $this->postService->list($request);
+            // return dd($posts);
             return view('admin.posts.list', ['posts' => $posts]);
         } catch (\Exception $e) {
             return back();
@@ -104,6 +107,7 @@ class PostController extends Controller
     public function show($id)
     {
         try {
+            // $post = DB::select('select * from posts where id = :id', ['id' => $id]);
             $post = $this->postService->findById($id);
             if ($post['active'] === 0) {
                 return back();
@@ -125,9 +129,10 @@ class PostController extends Controller
     {
 
         try {
+            $categories = $this->categoryService->all(['id', 'name']);
             $post = $this->postService->findById($id);
             if ($post['active'] == 1) {
-                return view('admin.posts.edit', ['post' => $post]);
+                return view('admin.posts.edit', ['post' => $post, 'categories' => $categories]);
             } else return redirect(route('admin.post.index'))->with('error', 'Post deleted ');
         } catch (\Exception $e) {
             return back();

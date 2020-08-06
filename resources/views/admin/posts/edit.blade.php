@@ -6,10 +6,10 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Category
-                    <small>{{$category->name}}</small>
+                <h1 class="page-header">Post
+                    <small>{{$post->title}}</small>
                     <div>
-                        <a href=" {{route('admin.category.index')}} " class="btn btn-success mb3">Back</a>
+                        <a href=" {{route('admin.post.index')}} " class="btn btn-success mb3">Back</a>
                     </div>
                 </h1>
 
@@ -40,71 +40,128 @@
             </div>
             @endif
 
-            <form action="{{  url('admin/category/update/'.$category->id) }}" method="POST"
+            @if (count($errors)>0)
+                <div class="alert alert-danger">
+                    @foreach ($errors->all() as $err)
+                    {{$err}}<br>
+                    @endforeach
+                </div>
+
+            @endif
+
+
+
+            <form action="{{  url('admin/post/update/'.$post->id) }}" method="POST"
                 enctype="multipart/form-data">
-                {{-- 'name', 'tag', 'description', 'icon', 'slug' --}}
-                {!! method_field('put') !!}
+                    {!! method_field('put') !!}
                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="hidden" name="id" value="{!! $category->id !!}" />
+                <input type="hidden" name="id" value="{!! $post->id !!}" />
 
-                <div class="col-xs-12 col-sm-12  col-md-12">
-                    <div class="form-group">
-                        <strong>Category Name : </strong>
-                        <input id="category_name" type="text" name="name" class="form-control"
-                            placeholder="Category Name" value="{{$category->name}}">
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post Title : </strong>
+                            <input id="post_title" type="text" name="title" class="form-control"
+                                placeholder="Post title" value="{{$post->title}}">
+                        </div>
+                        @error('title')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('name')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="col-xs-12 col-sm-12  col-md-12">
-                    <div class="form-group">
-                        <strong>Category Tag : </strong>
-                        <input id="category_tag" type="text" name="tag" class="form-control" placeholder="Category Tag"
-                            value="{{$category->tag}}">
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post Intro : </strong>
+                            <input id="post_intro" type="text" name="intro" class="form-control"
+                                placeholder="Post intro" value="{{$post->intro}}">
+                        </div>
+                        @error('intro')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('tag')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
-                <div class="col-xs-12 col-sm-12  col-md-12">
-                    <div class="form-group">
-                        <strong>Category Description : </strong>
-                        <input id="category_description" type="text" name="description" class="form-control"
-                            placeholder="Category Description" value="{{$category->description}}">
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post Content : </strong>
+                            <input id="post_content" type="text" name="content" class="form-control"
+                                placeholder="Post content" value="{{$post->content}}">
+                        </div>
+                        @error('content')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('description')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
 
 
 
                 <div class="col-xs-12 col-sm-12  col-md-12">
                     <div class="form-group">
-                        <strong>Category Icon : </strong>
+                        <strong>Post Image : </strong>
                         <p>
-                            <img width="400px" height="400x" src="{{$category->icon}}" alt="">
+                            <img width="400px" height="400x" src="{{$post->image}}" alt="">
                         </p>
-                        <input type="file" name="icon" class="form-control">
+                        <input type="file" name="image" class="form-control">
                     </div>
-                    @error('icon')
+                    @error('image')
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="col-xs-12 col-sm-12  col-md-12">
-                    <div class="form-group">
-                        <strong>Category Slug : </strong>
-                        <input id="category_slug" type="text" name="slug" class="form-control"
-                            placeholder="Category Slug" value="{{$category->slug}}">
+               <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post tag : </strong>
+                            <input id="post_tag" type="text" name="tag" class="form-control" placeholder="Post tag" value="{{$post->tag}}">
+                        </div>
+                        @error('tag')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                     </div>
-                    @error('slug')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                    @enderror
-                </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post Description : </strong>
+                            <input id="post_description" type="text" name="description" class="form-control"
+                                placeholder="Post description" value="{{$post->description}}">
+                        </div>
+                        @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post Count Comment : </strong>
+                            <input id="post_title" type="text" name="count_comment" class="form-control"
+                                placeholder="Post count comment" value="{{$post->count_comment}}">
+                        </div>
+                        @error('count_comment')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <div class="form-group">
+                            <strong>Post slug : </strong>
+                            <input id="post_slug" type="text" name="slug" class="form-control" placeholder="Post slug" value="{{$post->slug}}">
+                        </div>
+                        @error('slug')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12  col-md-12">
+                        <label>Category name</label>
+                        <select class="form-control" name="category_id" id="category_id">
+                            @foreach ($categories as $category)
+                            <option
+                              @if ($category->id == $post->category->id)
+                                        {{ "selected" }}
+                              @endif
+                             value="{{$category->id}}">{{$category->name}}</option>
+                            @endforeach
+                        </select>
+                        @error('category_id')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
 
 
                 <div class="col-xs-12 col-sm-12  col-md-12 mb-3">
