@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Services\PostService;
+use App\Services\CategoryService;
 use Illuminate\Http\Request;
 use App\Http\Requests\PostRequest;
 use App\Http\Requests\PostEditRequest;
-
+use Illuminate\Support\Facades\App;
 use Session;
 
 
@@ -20,6 +21,12 @@ class PostController extends Controller
      * @var postService
      */
     protected $postService;
+    /**
+     * The post Service implementation.
+     *
+     * @var categoryService
+     */
+    protected $categoryService;
 
     /**
      * Instantiate a new PostController instance.
@@ -29,9 +36,11 @@ class PostController extends Controller
      * @return void
      */
     public function __construct(
-        PostService $postService
+        PostService $postService,
+        CategoryService $categoryService
     ) {
         $this->postService = $postService;
+        $this->categoryService = $categoryService;
     }
 
 
@@ -61,7 +70,8 @@ class PostController extends Controller
     {
         //
         try {
-            return view('admin.posts.create');
+            $categories = $this->categoryService->all(['id', 'name']);
+            return view('admin.posts.create', ['categories' => $categories]);
         } catch (\Exception $e) {
             return back();
         }
@@ -76,13 +86,13 @@ class PostController extends Controller
      */
     public function store(PostRequest $postRequest)
     {
-        //
+
         try {
             $this->postService->store($postRequest);
-            return redirect(route('admin.post.index'));
         } catch (\Exception $e) {
             return back();
         }
+        return redirect(route('admin.post.index'));
     }
 
     /**

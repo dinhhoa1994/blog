@@ -26,7 +26,6 @@ class PostRequest extends FormRequest
     {
         return [
 
-            'name' => 'required',
             'tag' => 'required',
             'description' => 'required',
             'image' => 'required',
@@ -42,7 +41,6 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required'  => config('post.name_validation'),
             'name.tag'  => config('post.tag_validation'),
             'name.description'  => config('post.description_validation'),
             'name.image'  => config('post.image_validation'),
